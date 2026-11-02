@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>rehansCode - Powerful Code Editor</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- App Main Wrapper -->
+  <div id="app" class="app-container">
+
+    <!-- Top Navigation Bar -->
+    <header class="top-bar">
+      <button id="btnDrawer" class="icon-btn" title="Open Sidebar">
+        <svg viewBox="0 0 24 24" class="icon"><path fill="currentColor" d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+      </button>
+
+      <div class="header-breadcrumbs">
+        <span class="app-brand-name">rehansCode</span>
+        <span class="breadcrumb-sep">/</span>
+        <span id="headerFileName" class="breadcrumb-file">main.js</span>
+      </div>
+
+      <div class="header-actions">
+        <button id="btnRunApp" class="action-btn-run" title="Run Code">
+          <svg viewBox="0 0 24 24" class="icon"><path fill="currentColor" d="M8 5.14v14l11-7l-11-7Z"/></svg>
+          <span>Run</span>
+        </button>
+        <button id="btnSaveFile" class="icon-btn" title="Save File (Ctrl+S)">
+          <svg viewBox="0 0 24 24" class="icon"><path fill="currentColor" d="M15 9H5V5h10m-3 14a3 3 0 0 1-3-3a3 3 0 0 1 3-3a3 3 0 0 1 3 3a3 3 0 0 1-3 3m5-16H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7l-4-4Z"/></svg>
+        </button>
+        <button id="btnToggleTerminal" class="icon-btn" title="Toggle Terminal">
+          <svg viewBox="0 0 24 24" class="icon"><path fill="currentColor" d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2M7.5 14.5l-1.41-1.41L8.67 10.5L6.09 7.91L7.5 6.5l4 4l-4 4m9.5 0h-6v-2h6v2Z"/></svg>
+        </button>
+        <button id="btnMenu" class="icon-btn" title="More Options">
+          <svg viewBox="0 0 24 24" class="icon"><path fill="currentColor" d="M12 16a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0-6a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2m0-6a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2Z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Editor Tab Bar -->
+    <div class="tabs-bar">
+      <div id="tabsContainer" class="tabs-scroll-container">
+        <!-- Tabs injected dynamically -->
+      </div>
+      <button id="btnNewTab" class="tab-add-btn" title="New Tab">+</button>
+    </div>
+
+    <!-- Main Workspace Area -->
+    <main class="workspace-area">
+
+      <!-- View 1: Welcome Screen (Matches Screenshot 6) -->
+      <section id="welcomeScreen" class="welcome-screen">
+        <div class="welcome-card">
+          <div class="welcome-logo-glow">
+            <svg viewBox="0 0 24 24" class="welcome-logo-svg">
+              <path fill="url(#cyanGrad)" d="M8.59 16.59L13.17 12L8.59 7.41L10 6l6 6l-6 6l-1.41-1.41M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6l6 6l1.41-1.41Z"/>
+              <defs>
+                <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#00f2fe"/>
+                  <stop offset="100%" stop-color="#4facfe"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+
+          <h1 class="welcome-title">Welcome to rehansCode</h1>
+          <p class="welcome-subtitle">Powerful code editor for Android & Web</p>
+
+          <div class="welcome-section">
+            <h3 class="welcome-section-header">GET STARTED</h3>
+            <button class="welcome-row" onclick="createNewFile()">
+              <span class="welcome-row-icon">+</span>
+              <span class="welcome-row-text">New file</span>
+              <span class="welcome-row-shortcut">Ctrl+N</span>
+            </button>
+            <button class="welcome-row" onclick="openDrawer('explorer')">
+              <span class="welcome-row-icon">📁</span>
+              <span class="welcome-row-text">Open folder</span>
+              <span class="welcome-row-shortcut">Ctrl+O</span>
+            </button>
+            <button class="welcome-row" onclick="openFile('main.js')">
+              <span class="welcome-row-icon">🕒</span>
+              <span class="welcome-row-text">Recent Files (main.js)</span>
+            </button>
+            <button class="welcome-row" onclick="openCommandPalette()">
+              <span class="welcome-row-icon">⌘</span>
+              <span class="welcome-row-text">Open Command Palette</span>
+              <span class="welcome-row-shortcut">Ctrl+Shift+P</span>
+            </button>
+          </div>
+
+          <div class="welcome-section">
+            <h3 class="welcome-section-header">CONFIGURE</h3>
+            <button class="welcome-row" onclick="openDrawer('settings')">
+              <span class="welcome-row-icon">⚙️</span>
+              <span class="welcome-row-text">Settings</span>
+            </button>
+            <button class="welcome-row" onclick="toggleThemeModal()">
+              <span class="welcome-row-icon">🎨</span>
+              <span class="welcome-row-text">Change Theme (Dark Modern)</span>
+            </button>
+            <button class="welcome-row" onclick="openDrawer('plugins')">
+              <span class="welcome-row-icon">🧩</span>
+              <span class="welcome-row-text">Explore Plugins (350+ Plugins)</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- View 2: Code Editor Screen -->
+      <section id="editorScreen" class="editor-screen hidden">
+        <!-- Find & Replace Toolbar -->
+        <div id="findBar" class="find-bar hidden">
+          <div class="find-row">
+            <input type="text" id="findInput" placeholder="Find..." class="find-input">
+            <button id="btnFindNext" class="find-btn">Next</button>
+            <button id="btnCloseFind" class="find-btn close">✕</button>
+          </div>
+          <div class="find-row">
+            <input type="text" id="replaceInput" placeholder="Replace..." class="find-input">
+            <button id="btnReplace" class="find-btn">Repl</button>
+            <button id="btnReplaceAll" class="find-btn">All</button>
+          </div>
+        </div>
+
+        <div class="editor-core-container">
+          <div id="lineGutter" class="line-gutter">1</div>
+          <textarea id="codeTextarea" class="code-textarea" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
+        </div>
+
+        <button id="btnScrollTop" class="floating-scroll-btn" title="Scroll To Top">⌃</button>
+      </section>
+
+      <!-- View 3: Terminal Emulator (Matches Screenshot 1 & 2) -->
+      <section id="terminalScreen" class="terminal-screen hidden">
+        <div class="terminal-header">
+          <div class="terminal-title-box">
+            <span class="terminal-status-dot"></span>
+            <span class="terminal-title">Terminal 1 (node, vite, git)</span>
+          </div>
+          <button class="terminal-clear-btn" onclick="clearTerminal()">Clear</button>
+        </div>
+        <div id="terminalBody" class="terminal-body">
+          <div class="term-line success">✓ rehansCode Linux Runtime Initialized</div>
+          <div class="term-line info">Type <strong>npm run dev</strong> or <strong>node main.js</strong> to execute</div>
+        </div>
+        <div class="terminal-input-row">
+          <span class="terminal-prompt">root@localhost ~/rehanscode $</span>
+          <input type="text" id="termInput" class="terminal-input" placeholder="npm run dev, node, git, ls..." autocomplete="off">
+          <button id="btnTermEnter" class="terminal-enter-btn">↵</button>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Above-Keyboard Accessory Bar (Matches Screenshot 1 & 2) -->
+    <nav class="accessory-bar">
+      <div class="accessory-scroll">
+        <button class="acc-btn" onclick="insertSymbol('CTRL')">CTRL</button>
+        <button class="acc-btn" onclick="insertSymbol('    ')">⇥</button>
+        <button class="acc-btn" onclick="insertSymbol('SHFT')">SHFT</button>
+        <button class="acc-btn" onclick="performUndo()">↶</button>
+        <button class="acc-btn" onclick="performRedo()">↷</button>
+        <button class="acc-btn" onclick="toggleFindBar()">🔍</button>
+        <button class="acc-btn" onclick="saveActiveFile()">💾</button>
+        <button class="acc-btn" onclick="insertSymbol('ESC')">ESC</button>
+        <button class="acc-btn symbol" onclick="insertSymbol('{')">{</button>
+        <button class="acc-btn symbol" onclick="insertSymbol('}')">}</button>
+        <button class="acc-btn symbol" onclick="insertSymbol('(')">(</button>
+        <button class="acc-btn symbol" onclick="insertSymbol(')')">)</button>
+        <button class="acc-btn symbol" onclick="insertSymbol('[')">[</button>
+        <button class="acc-btn symbol" onclick="insertSymbol(']')">]</button>
+        <button class="acc-btn symbol" onclick="insertSymbol(';')">;</button>
+        <button class="acc-btn symbol" onclick="insertSymbol('=')">=</button>
+        <button class="acc-btn symbol" onclick="insertSymbol('"')">"</button>
+        <button class="acc-btn symbol" onclick="insertSymbol(''')">'</button>
+        <button class="acc-btn symbol" onclick="insertSymbol('<')">&lt;</button>
+        <button class="acc-btn symbol" onclick="insertSymbol('>')">&gt;</button>
+        <button class="acc-btn symbol" onclick="insertSymbol('/')">/</button>
+      </div>
+    </nav>
+
+    <!-- Bottom Status Bar -->
+    <footer class="status-bar">
+      <div class="status-left">
+        <span id="statLineCol">Ln 1, Col 1</span>
+        <span class="status-divider">|</span>
+        <span id="statChars">0 chars</span>
+        <span class="status-divider">|</span>
+        <span>UTF-8</span>
+      </div>
+      <div class="status-right">
+        <span id="statLanguage" class="status-lang-badge">JavaScript</span>
+        <span class="status-badge-app">rehansCode</span>
+      </div>
+    </footer>
+
+    <!-- Sidebar Drawer (Matches Screenshot 3, 4) -->
+    <div id="drawerOverlay" class="drawer-overlay" onclick="closeDrawer()"></div>
+    <aside id="sidebarDrawer" class="sidebar-drawer">
+      <!-- Activity Rail (Icons on Left) -->
+      <div class="activity-rail">
+        <button class="rail-btn active" onclick="switchDrawerTab('explorer')" title="Explorer">📁</button>
+        <button class="rail-btn" onclick="switchDrawerTab('git')" title="Source Control">🌿</button>
+        <button class="rail-btn" onclick="switchDrawerTab('plugins')" title="Plugins">🧩</button>
+        <button class="rail-btn" onclick="switchDrawerTab('terminal')" title="Terminal">💻</button>
+        <button class="rail-btn" onclick="switchDrawerTab('settings')" title="Settings">⚙️</button>
+      </div>
+
+      <!-- Drawer Content Panels -->
+      <div class="drawer-panel">
+        
+        <!-- Tab 1: File Explorer -->
+        <div id="panelExplorer" class="tab-panel active">
+          <div class="panel-header">
+            <h3>EXPLORER</h3>
+            <div class="panel-header-actions">
+              <button onclick="createNewFile()" title="New File">+📄</button>
+              <button onclick="createNewFolder()" title="New Folder">+📁</button>
+              <button onclick="renderFileList()" title="Refresh">🔄</button>
+            </div>
+          </div>
+          <div id="fileTreeList" class="file-tree-list"></div>
+        </div>
+
+        <!-- Tab 2: Git Source Control (Matches Screenshot 3) -->
+        <div id="panelGit" class="tab-panel">
+          <div class="panel-header">
+            <h3>SOURCE CONTROL</h3>
+          </div>
+          <div class="git-content">
+            <div class="git-repo-banner">
+              <span>REPOSITORIES</span>
+              <strong class="git-branch">rehanscode (main*)</strong>
+            </div>
+            <div class="git-commit-box">
+              <input type="text" id="gitCommitInput" placeholder="Message to commit on main" class="git-input">
+              <button class="git-commit-btn" onclick="doGitCommit()">✓ Commit</button>
+            </div>
+            <div class="git-changes-header">
+              <span>CHANGES</span>
+              <span class="badge" id="gitChangesCount">3</span>
+            </div>
+            <div id="gitChangesList" class="git-changes-list">
+              <div class="git-item"><span class="git-icon">M</span> main.js <span class="git-status">Modified</span></div>
+              <div class="git-item"><span class="git-icon">A</span> index.html <span class="git-status">Added</span></div>
+              <div class="git-item"><span class="git-icon">M</span> style.css <span class="git-status">Modified</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 3: Plugins Marketplace (Matches Screenshot 4 - 350+ Plugins) -->
+        <div id="panelPlugins" class="tab-panel">
+          <div class="panel-header">
+            <h3>PLUGINS (350+)</h3>
+          </div>
+          <div class="plugins-search-box">
+            <input type="text" placeholder="Search 350+ plugins..." class="plugins-search-input">
+          </div>
+          <div class="plugins-list">
+            <div class="plugin-card">
+              <div class="plugin-info">
+                <strong>AcodeX - Terminal</strong>
+                <p>Node.js & Bash integrated terminal</p>
+                <span class="plugin-stats">v3.3.0 • 272.4K</span>
+              </div>
+              <button class="plugin-install-btn installed">Installed</button>
+            </div>
+            <div class="plugin-card">
+              <div class="plugin-info">
+                <strong>Prettier Code Formatter</strong>
+                <p>Format JS, CSS, HTML on save</p>
+                <span class="plugin-stats">v2.0.2 • 160.6K</span>
+              </div>
+              <button class="plugin-install-btn" onclick="installPlugin(this)">Install</button>
+            </div>
+            <div class="plugin-card">
+              <div class="plugin-info">
+                <strong>AI Coding Assistant (Copilot)</strong>
+                <p>Smart auto-complete & code generation</p>
+                <span class="plugin-stats">v2.0.0 • 121.5K</span>
+              </div>
+              <button class="plugin-install-btn" onclick="installPlugin(this)">Install</button>
+            </div>
+            <div class="plugin-card">
+              <div class="plugin-info">
+                <strong>Live Server Preview</strong>
+                <p>Hot reload HTML/JS web preview</p>
+                <span class="plugin-stats">v1.1.2 • 41.5K</span>
+              </div>
+              <button class="plugin-install-btn installed">Installed</button>
+            </div>
+            <div class="plugin-card">
+              <div class="plugin-info">
+                <strong>Python LSP IntelliSense</strong>
+                <p>Code completion and linting</p>
+                <span class="plugin-stats">v1.1.4 • 316.6K</span>
+              </div>
+              <button class="plugin-install-btn" onclick="installPlugin(this)">Install</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 4: Settings -->
+        <div id="panelSettings" class="tab-panel">
+          <div class="panel-header">
+            <h3>SETTINGS</h3>
+          </div>
+          <div class="settings-content">
+            <div class="setting-item">
+              <label>Theme</label>
+              <select onchange="changeTheme(this.value)">
+                <option value="dark-modern">Dark Modern (Acode Default)</option>
+                <option value="one-dark">One Dark Pro</option>
+                <option value="monokai">Monokai Pro</option>
+                <option value="dracula">Dracula</option>
+              </select>
+            </div>
+            <div class="setting-item">
+              <label>Font Size</label>
+              <select onchange="changeFontSize(this.value)">
+                <option value="12px">12px - Compact</option>
+                <option value="14px" selected>14px - Normal</option>
+                <option value="16px">16px - Large</option>
+              </select>
+            </div>
+            <div class="setting-item">
+              <label>Word Wrap</label>
+              <input type="checkbox" checked onchange="toggleWordWrap(this.checked)">
+            </div>
+            <div class="setting-item">
+              <label>Tab Size</label>
+              <select>
+                <option value="2">2 spaces</option>
+                <option value="4" selected>4 spaces</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- Run / Live Preview Modal -->
+    <div id="runModal" class="run-modal hidden">
+      <div class="run-modal-header">
+        <span>Live Web Preview</span>
+        <button onclick="closeRunModal()" class="close-run-btn">✕</button>
+      </div>
+      <iframe id="previewFrame" class="run-modal-iframe"></iframe>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

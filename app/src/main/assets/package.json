@@ -1,0 +1,20 @@
+{
+  "name": "rehanscode",
+  "version": "1.0.0",
+  "description": "rehansCode - Powerful Mobile Code Editor for Android & Web",
+  "main": "main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "start": "node main.js"
+  },
+  "keywords": [
+    "rehanscode",
+    "code-editor",
+    "mobile-ide",
+    "nodejs",
+    "android"
+  ],
+  "author": "rehansCode",
+  "license": "MIT"
+}
